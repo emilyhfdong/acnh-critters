@@ -6,4 +6,5 @@ export const theme = {
     black: "rgb(138, 98, 94)",
     lightGreen: "rgb(174, 239, 172)",
   },
+  verticalSpacing: "10px",
 }

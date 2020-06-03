@@ -1,11 +1,27 @@
 import React from "react"
 import { Box, SxStyleProp } from "rebass"
 
+export type TButtonType = "pill" | "circle"
+
+const buttonStyles = {
+  pill: {
+    height: 30,
+    paddingX: 20,
+    paddingY: 0,
+  },
+  circle: {
+    width: 40,
+    height: 40,
+    padding: 0,
+  },
+}
+
 export const Button: React.SFC<{
   onClick: () => void
   isActive: boolean
   sx?: SxStyleProp
-}> = ({ onClick, isActive, sx, children }) => (
+  buttonType?: TButtonType
+}> = ({ onClick, isActive, sx, children, buttonType = "pill" }) => (
   <Box
     onClick={onClick}
     sx={{
@@ -14,9 +30,6 @@ export const Button: React.SFC<{
       color: isActive ? "white" : "black",
       border: "1px solid black",
       borderColor: "black",
-      height: 30,
-      paddingX: 20,
-      paddingY: 0,
       borderRadius: 20,
       "&:hover": {
         cursor: "pointer",
@@ -24,6 +37,7 @@ export const Button: React.SFC<{
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      ...buttonStyles[buttonType],
       ...sx,
     }}
   >

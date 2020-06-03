@@ -1,6 +1,6 @@
 import { IFish } from "./format-fish"
 
-export const FILTERS = {
+export const FISH_FILTERS = {
   available: {
     filter: (fish: IFish) => fish.isAvailable,
     type: "available",
@@ -47,14 +47,14 @@ export const FILTERS = {
   },
 }
 
-export type TFilterName = keyof typeof FILTERS
+export type TFishFilterName = keyof typeof FISH_FILTERS
 
-export const FILTER_NAMES = Object.keys(FILTERS) as TFilterName[]
+export const FISH_FILTER_NAMES = Object.keys(FISH_FILTERS) as TFishFilterName[]
 
-const getSizeFromFilterName = (filterName?: TFilterName) =>
+const getSizeFromFilterName = (filterName?: TFishFilterName) =>
   filterName ? Number(filterName.replace("size", "")) : null
 
-export const getSizeFromFilters = (filters: TFilterName[]) =>
+export const getSizeFromFilters = (filters: TFishFilterName[]) =>
   getSizeFromFilterName(
-    filters.find((filterName) => FILTERS[filterName].type === "size")
+    filters.find((filterName) => FISH_FILTERS[filterName].type === "size")
   )
