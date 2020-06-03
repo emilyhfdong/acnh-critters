@@ -56,7 +56,7 @@ export const App: React.SFC<{}> = () => {
         as="h1"
         sx={{ color: "brown", marginBottom: "5px", letterSpacing: 2 }}
       >
-        ANIMAL CROSSING FISH
+        FISH
       </Text>
       <Box sx={{ display: "flex" }}>
         {FILTER_NAMES.filter(
