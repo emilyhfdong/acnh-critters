@@ -60,6 +60,8 @@ export const Card: React.SFC<{
           fontSize: isExpanded ? "14px" : "0px",
           transition: "font-size 0.25s",
           fontWeight: 600,
+          paddingX: 2,
+          textAlign: "center",
         }}
       >
         {title}

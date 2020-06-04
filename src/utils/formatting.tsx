@@ -16,6 +16,9 @@ export const LOCATION_TO_ICON: { [key: string]: ReactNode } = {
   pier: <i className="fas fa-map-signs"></i>,
 }
 
+export const getLocalImagePath = (uri: string) =>
+  uri.replace("https://acnhapi.com/v1/", "assets/").concat(".png")
+
 export const getIsAvailableNow = (
   monthArray: number[],
   timeArray: number[]
@@ -36,7 +39,9 @@ export const getAvailabilityDetail = (
 ) => {
   const months = monthDetail.split("-")
   const monthString = monthDetail
-    ? `${getMonthName(months[0])}-${getMonthName(months[1])}`
+    ? monthDetail.length === 1
+      ? getMonthName(months[0])
+      : `${getMonthName(months[0])}-${getMonthName(months[1])}`
     : "all year"
 
   const timeString = timeDetail ? timeDetail.replace(" ", "") : "all day"

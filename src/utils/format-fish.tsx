@@ -1,5 +1,9 @@
 import fishJSON from "../data/fish.json"
-import { getIsAvailableNow, getAvailabilityDetail } from "./formatting"
+import {
+  getIsAvailableNow,
+  getAvailabilityDetail,
+  getLocalImagePath,
+} from "./formatting"
 
 export type TFishLocation = "river" | "pond" | "sea" | "pier"
 
@@ -33,7 +37,7 @@ const formatFishData = (data: typeof rawFishData): IFish[] => {
   return data.map(({ id, name, icon_uri, availability, price, shadow }) => ({
     id: id.toString(),
     name: name["name-USen"],
-    icon: icon_uri,
+    icon: getLocalImagePath(icon_uri),
     isAvailable: getIsAvailableNow(
       availability["month-array-northern"],
       availability["time-array"]
@@ -55,3 +59,5 @@ const formatFishData = (data: typeof rawFishData): IFish[] => {
 export const formattedFishData = formatFishData(rawFishData).sort(
   (a, b) => b.price - a.price
 )
+
+console.log(formattedFishData)

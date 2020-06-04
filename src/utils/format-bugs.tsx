@@ -1,5 +1,9 @@
 import bugsJSON from "../data/bugs.json"
-import { getIsAvailableNow, getAvailabilityDetail } from "./formatting"
+import {
+  getIsAvailableNow,
+  getAvailabilityDetail,
+  getLocalImagePath,
+} from "./formatting"
 
 const rawBugsData = Object.values(bugsJSON)
 
@@ -51,7 +55,7 @@ const formatBugsData = (data: typeof rawBugsData): IBug[] => {
   return data.map(({ id, name, icon_uri, availability, price }) => ({
     id: id.toString(),
     name: name["name-USen"],
-    icon: icon_uri,
+    icon: getLocalImagePath(icon_uri),
     isAvailable: getIsAvailableNow(
       availability["month-array-northern"],
       availability["time-array"]

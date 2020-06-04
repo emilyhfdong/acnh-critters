@@ -73,7 +73,7 @@ export const CritterCard: React.SFC<{
       paragraph={`${availabilityDetail}\n${rarity}`}
     >
       <Image
-        src={icon}
+        src={process.env.PUBLIC_URL + icon}
         sx={{
           width: 50,
           height: 50,
