@@ -46,6 +46,7 @@ export const BugsPage: React.SFC<{}> = () => {
       >
         {LOCATION_BUGS_FILTER_NAMES.map((location) => (
           <Button
+            key={location}
             sx={{ marginTop: "3px" }}
             buttonType="circle"
             onClick={() => selectFilter(location)}

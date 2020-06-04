@@ -18,18 +18,29 @@ export const Page: React.SFC<{
       margin: "auto",
     }}
   >
-    <Text
-      as="h1"
+    <Box
       sx={{
-        color: theme.colors.brown,
+        display: "flex",
         marginBottom: "5px",
-        letterSpacing: 2,
-        "&:hover": { cursor: "pointer" },
+        color: theme.colors.brown,
+        justifyContent: "center",
+        alignItems: "center",
       }}
-      onClick={headerOnClick}
     >
-      {headerText}
-    </Text>
+      <i className="fas fa-chevron-left" />
+      <Text
+        as="h1"
+        sx={{
+          letterSpacing: 2,
+          "&:hover": { cursor: "pointer" },
+          marginX: "10px",
+        }}
+        onClick={headerOnClick}
+      >
+        {headerText}
+      </Text>
+      <i className="fas fa-chevron-right" />
+    </Box>
     {children}
   </Box>
 )

@@ -47,6 +47,7 @@ export const FishPage: React.SFC<{}> = () => {
           (filterName) => FISH_FILTERS[filterName].type === "location"
         ).map((filterName) => (
           <Button
+            key={filterName}
             buttonType="circle"
             isActive={filters.includes(filterName)}
             onClick={() => selectFilter(filterName)}

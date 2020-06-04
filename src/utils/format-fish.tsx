@@ -2,7 +2,7 @@ import fishJSON from "../data/fish.json"
 
 import React from "react"
 import { ReactNode } from "react"
-import { getIsAvailableNow } from "./available"
+import { getIsAvailableNow, getAvailabilityDetail } from "./formatting"
 
 export const FISH_LOCATION_TO_ICON: { [key: string]: ReactNode } = {
   pond: <i className="fas fa-splotch"></i>,
@@ -16,16 +16,19 @@ export type TFishLocation = keyof typeof FISH_LOCATION_TO_ICON
 const rawFishData = Object.values(fishJSON)
 
 export interface IFish {
-  id: number
+  id: string
   name: string
   isAvailable: boolean
   price: number
   icon: string
   locations: TFishLocation[]
   shadowSize?: number
+  locationDetail: string
+  availabilityDetail: string
+  rarity: string
 }
 
-const getLocations = (locationString: string) =>
+const getFishLocations = (locationString: string) =>
   Object.keys(FISH_LOCATION_TO_ICON).reduce(
     (locationList, location) =>
       locationString.toLowerCase().includes(location)
@@ -36,7 +39,7 @@ const getLocations = (locationString: string) =>
 
 const formatFishData = (data: typeof rawFishData): IFish[] => {
   return data.map(({ id, name, icon_uri, availability, price, shadow }) => ({
-    id,
+    id: id.toString(),
     name: name["name-USen"],
     icon: icon_uri,
     isAvailable: getIsAvailableNow(
@@ -44,10 +47,16 @@ const formatFishData = (data: typeof rawFishData): IFish[] => {
       availability["time-array"]
     ),
     price,
-    locations: getLocations(availability.location),
+    locations: getFishLocations(availability.location),
     shadowSize: shadow.split(/\(|\)/g)[1]
       ? Number(shadow.split(/\(|\)/g)[1])
       : undefined,
+    locationDetail: availability.location,
+    availabilityDetail: getAvailabilityDetail(
+      availability["month-northern"],
+      availability.time
+    ),
+    rarity: availability.rarity.toLowerCase(),
   }))
 }
 

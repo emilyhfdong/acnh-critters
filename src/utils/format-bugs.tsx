@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import bugsJSON from "../data/bugs.json"
-import { getIsAvailableNow } from "./available"
+import { getIsAvailableNow, getAvailabilityDetail } from "./formatting"
 
 const rawBugsData = Object.values(bugsJSON)
 
@@ -53,6 +53,9 @@ export interface IBug {
   price: number
   icon: string
   location: TBugLocation
+  availabilityDetail: string
+  rarity: string
+  locationDetail: string
 }
 
 const formatBugsData = (data: typeof rawBugsData): IBug[] => {
@@ -66,6 +69,12 @@ const formatBugsData = (data: typeof rawBugsData): IBug[] => {
     ),
     price,
     location: mapRawLocationsToLocations[availability.location],
+    availabilityDetail: getAvailabilityDetail(
+      availability["month-northern"],
+      availability.time
+    ),
+    rarity: availability.rarity,
+    locationDetail: availability.location,
   }))
 }
 
