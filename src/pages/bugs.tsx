@@ -8,10 +8,14 @@ import { Button } from "../components/button"
 import { CritterList } from "../components/critter-list"
 import { formattedBugData, getIsAvailableNow } from "../utils/format-critters"
 import { LOCATION_TO_ICON, BUG_LOCATIONS } from "../utils/location"
+import { Input } from "../components/search-input"
+import { Toggle } from "../components/toggle"
+import Fuse from "fuse.js"
 
 export const BugsPage: React.SFC<{}> = () => {
   const [onlyAvailable, setOnlyAvailable] = useState(true)
   const [locationFilter, setLocationFilter] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const filteredBugs = formattedBugData.filter(
     ({ availableHours, availableMonths, location }) => {
@@ -22,6 +26,13 @@ export const BugsPage: React.SFC<{}> = () => {
       )
     }
   )
+
+  const searchedBugs = searchTerm
+    ? new Fuse(filteredBugs, { keys: ["name"], threshold: 0.5 })
+        .search(searchTerm)
+        .map(({ item }) => item)
+    : filteredBugs
+
   const history = useHistory()
   return (
     <Page headerOnClick={() => history.push(PATH_NAMES.fish)} headerText="BUGS">
@@ -47,15 +58,20 @@ export const BugsPage: React.SFC<{}> = () => {
           </Button>
         ))}
       </Box>
-      <Box sx={{ display: "flex", marginBottom: theme.verticalSpacing }}>
-        <Button
-          isActive={onlyAvailable}
-          onClick={() => setOnlyAvailable(!onlyAvailable)}
-        >
-          available now
-        </Button>
+      <Box
+        sx={{
+          display: "flex",
+          marginBottom: theme.verticalSpacing,
+          justifyContent: "center",
+        }}
+      >
+        <Input onChange={setSearchTerm} />
+        <Toggle
+          isOn={onlyAvailable}
+          onChange={() => setOnlyAvailable(!onlyAvailable)}
+        />
       </Box>
-      <CritterList list={filteredBugs} />
+      <CritterList list={searchedBugs} />
     </Page>
   )
 }

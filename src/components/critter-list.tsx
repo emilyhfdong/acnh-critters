@@ -91,7 +91,7 @@ export const CritterCard: React.SFC<{
               ))}
       </IconContainer>
       <IconContainer color={iconColor} position="topRight">
-        {getIsAvailableNow(availableMonths, availableMonths) && (
+        {getIsAvailableNow(availableMonths, availableHours) && (
           <i className="fas fa-check"></i>
         )}
       </IconContainer>

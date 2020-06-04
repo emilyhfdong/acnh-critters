@@ -5,20 +5,25 @@ import { Button } from "../components/button"
 import { SizeSlider } from "../components/fish-size-slider"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
-import { theme } from "../theme"
 import { Page } from "../components/page-container"
 import { CritterList } from "../components/critter-list"
 import { formattedFishData, getIsAvailableNow } from "../utils/format-critters"
 import { LOCATION_TO_ICON, FISH_LOCATIONS } from "../utils/location"
+import Fuse from "fuse.js"
+import { Input } from "../components/search-input"
+import { theme } from "../theme"
+import { Toggle } from "../components/toggle"
 
 export const FishPage: React.SFC<{}> = () => {
   const [onlyAvailable, setOnlyAvailable] = useState(true)
   const [locationFilter, setLocationFilter] = useState("")
   const [sizeRange, setSizeRange] = useState([1, 6])
+  const [searchTerm, setSearchTerm] = useState("")
 
   const filteredFish = formattedFishData.filter(
     ({ availableHours, availableMonths, location, shadowSize = 6 }) => {
       const [minSize, maxSize] = sizeRange
+
       return (
         !(
           onlyAvailable && !getIsAvailableNow(availableMonths, availableHours)
@@ -29,6 +34,12 @@ export const FishPage: React.SFC<{}> = () => {
       )
     }
   )
+
+  const searchedFish = searchTerm
+    ? new Fuse(filteredFish, { keys: ["name"], threshold: 0.5 })
+        .search(searchTerm)
+        .map(({ item }) => item)
+    : filteredFish
 
   const history = useHistory()
 
@@ -49,15 +60,21 @@ export const FishPage: React.SFC<{}> = () => {
         ))}
       </Box>
       <SizeSlider onChange={setSizeRange} />
-      <Box sx={{ display: "flex", marginBottom: theme.verticalSpacing }}>
-        <Button
-          isActive={onlyAvailable}
-          onClick={() => setOnlyAvailable(!onlyAvailable)}
-        >
-          available now
-        </Button>
+
+      <Box
+        sx={{
+          display: "flex",
+          marginBottom: theme.verticalSpacing,
+          justifyContent: "center",
+        }}
+      >
+        <Input onChange={setSearchTerm} />
+        <Toggle
+          isOn={onlyAvailable}
+          onChange={() => setOnlyAvailable(!onlyAvailable)}
+        />
       </Box>
-      <CritterList list={filteredFish} />
+      <CritterList list={searchedFish} />
     </Page>
   )
 }

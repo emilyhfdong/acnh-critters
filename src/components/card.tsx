@@ -31,9 +31,9 @@ export const Card: React.SFC<{
       borderRadius: "8px",
       margin: `${CARD_MARGIN}px`,
     }}
-    onClick={onClick}
   >
     <Box
+      onClick={onClick}
       sx={{
         zIndex: isExpanded ? 1 : 0,
         position: "absolute",

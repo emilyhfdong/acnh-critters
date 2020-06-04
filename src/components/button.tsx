@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, SxStyleProp } from "rebass"
+import { theme } from "../theme"
 
 export type TButtonType = "pill" | "circle"
 
@@ -10,8 +11,8 @@ const buttonStyles = {
     paddingY: 0,
   },
   circle: {
-    width: 40,
-    height: 40,
+    width: theme.buttonHeight,
+    height: theme.buttonHeight,
     padding: 0,
   },
 }

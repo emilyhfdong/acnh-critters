@@ -3,6 +3,7 @@ import fishJSON from "../data/fish.json"
 import bugJSON from "../data/bugs.json"
 
 import moment from "moment"
+import Fuse from "fuse.js"
 
 const rawFishData = Object.values(fishJSON)
 const rawBugData = Object.values(bugJSON)

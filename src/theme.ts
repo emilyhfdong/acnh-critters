@@ -7,4 +7,5 @@ export const theme = {
     lightGreen: "rgb(174, 239, 172)",
   },
   verticalSpacing: "10px",
+  buttonHeight: 40,
 }
