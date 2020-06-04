@@ -3,14 +3,11 @@ import { useDimensions } from "../utils/hooks"
 import React from "react"
 import { NORMAL_CARD_SIZE, CARD_MARGIN, Card, IconContainer } from "./card"
 import { Box, Image } from "rebass"
-import { IBug } from "../utils/format-bugs"
-import { IFish } from "../utils/format-fish"
-import { getPriceRange, LOCATION_TO_ICON } from "../utils/formatting"
 import { formatMoney } from "accounting"
+import { ICritter, getIsAvailableNow } from "../utils/format-critters"
+import { LOCATION_TO_ICON } from "../utils/location"
 
-export const CritterList: React.SFC<{ list: Array<IBug | IFish> }> = ({
-  list,
-}) => {
+export const CritterList: React.SFC<{ list: Array<ICritter> }> = ({ list }) => {
   const [activeId, setActiveId] = useState("")
   const componentRef = useRef()
   const { width } = useDimensions(componentRef)
@@ -46,24 +43,29 @@ export const CritterList: React.SFC<{ list: Array<IBug | IFish> }> = ({
 }
 
 export const CritterCard: React.SFC<{
-  critter: IBug | IFish
+  critter: ICritter
   onClick: () => void
   isExpanded: boolean
   expandDirection: "left" | "right"
-}> = ({ critter, isExpanded, onClick, expandDirection }) => {
-  const iconColor = isExpanded ? "white" : "brown"
-  const {
+}> = ({
+  critter: {
     name,
     availabilityDetail,
     icon,
     rarity,
-    isAvailable,
+    availableHours,
+    availableMonths,
     price,
     locationDetail,
     location,
-  } = critter
-  // @ts-ignore
-  const shadowSize = critter.shadowSize
+    shadowSize,
+  },
+  isExpanded,
+  onClick,
+  expandDirection,
+}) => {
+  const iconColor = isExpanded ? "white" : "brown"
+
   return (
     <Card
       expandDirection={expandDirection}
@@ -89,7 +91,9 @@ export const CritterCard: React.SFC<{
               ))}
       </IconContainer>
       <IconContainer color={iconColor} position="topRight">
-        {isAvailable && <i className="fas fa-check"></i>}
+        {getIsAvailableNow(availableMonths, availableMonths) && (
+          <i className="fas fa-check"></i>
+        )}
       </IconContainer>
       <IconContainer color={iconColor} position="bottomLeft">
         {isExpanded ? locationDetail.toUpperCase() : LOCATION_TO_ICON[location]}
@@ -102,4 +106,15 @@ export const CritterCard: React.SFC<{
       </IconContainer>
     </Card>
   )
+}
+
+const getPriceRange = (price: number) => {
+  if (price >= 10000) {
+    return 4
+  } else if (price >= 5000) {
+    return 3
+  } else if (price >= 1000) {
+    return 2
+  }
+  return 1
 }

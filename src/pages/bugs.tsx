@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { Page } from "../components/page-container"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
-import { formattedBugsData } from "../utils/format-bugs"
 import {
   TBugFilterName,
   BUGS_FILTERS,
@@ -11,15 +10,16 @@ import {
 import { Box } from "rebass"
 import { theme } from "../theme"
 import { Button } from "../components/button"
-import { LOCATION_TO_ICON } from "../utils/formatting"
 import { CritterList } from "../components/critter-list"
+import { formattedBugData } from "../utils/format-critters"
+import { LOCATION_TO_ICON } from "../utils/location"
 
 export const BugsPage: React.SFC<{}> = () => {
   const [filters, setFilters] = useState<TBugFilterName[]>(["available"])
 
   const filteredBugs = filters.reduce(
     (allFish, filterName) => allFish.filter(BUGS_FILTERS[filterName].filter),
-    formattedBugsData
+    formattedBugData
   )
   const selectFilter = (selectedFilterName: TBugFilterName) =>
     filters.includes(selectedFilterName)

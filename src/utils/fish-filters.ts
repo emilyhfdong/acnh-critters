@@ -1,48 +1,49 @@
-import { IFish } from "./format-fish"
+import { ICritter, getIsAvailableNow } from "./format-critters"
 
 export const FISH_FILTERS = {
   available: {
-    filter: (fish: IFish) => fish.isAvailable,
+    filter: ({ availableHours, availableMonths }: ICritter) =>
+      getIsAvailableNow(availableMonths, availableHours),
     type: "available",
   },
   sea: {
-    filter: (fish: IFish) => fish.location === "sea",
+    filter: (fish: ICritter) => fish.location === "sea",
     type: "location",
   },
   river: {
-    filter: (fish: IFish) => fish.location === "river",
+    filter: (fish: ICritter) => fish.location === "river",
     type: "location",
   },
   pond: {
-    filter: (fish: IFish) => fish.location === "pond",
+    filter: (fish: ICritter) => fish.location === "pond",
     type: "location",
   },
   pier: {
-    filter: (fish: IFish) => fish.location === "pier",
+    filter: (fish: ICritter) => fish.location === "pier",
     type: "location",
   },
   size1: {
-    filter: (fish: IFish) => fish.shadowSize === 1,
+    filter: (fish: ICritter) => fish.shadowSize === 1,
     type: "size",
   },
   size2: {
-    filter: (fish: IFish) => fish.shadowSize === 2,
+    filter: (fish: ICritter) => fish.shadowSize === 2,
     type: "size",
   },
   size3: {
-    filter: (fish: IFish) => fish.shadowSize === 3,
+    filter: (fish: ICritter) => fish.shadowSize === 3,
     type: "size",
   },
   size4: {
-    filter: (fish: IFish) => fish.shadowSize === 4,
+    filter: (fish: ICritter) => fish.shadowSize === 4,
     type: "size",
   },
   size5: {
-    filter: (fish: IFish) => fish.shadowSize === 5,
+    filter: (fish: ICritter) => fish.shadowSize === 5,
     type: "size",
   },
   size6: {
-    filter: (fish: IFish) => fish.shadowSize === 6,
+    filter: (fish: ICritter) => fish.shadowSize === 6,
     type: "size",
   },
 }

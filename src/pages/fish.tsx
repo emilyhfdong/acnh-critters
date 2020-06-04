@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Box } from "rebass"
-import { formattedFishData } from "../utils/format-fish"
 import {
   TFishFilterName,
   FISH_FILTERS,
@@ -13,8 +12,9 @@ import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
 import { theme } from "../theme"
 import { Page } from "../components/page-container"
-import { LOCATION_TO_ICON } from "../utils/formatting"
 import { CritterList } from "../components/critter-list"
+import { formattedFishData } from "../utils/format-critters"
+import { LOCATION_TO_ICON } from "../utils/location"
 
 export const FishPage: React.SFC<{}> = () => {
   const [filters, setFilters] = useState<TFishFilterName[]>(["available"])

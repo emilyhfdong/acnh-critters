@@ -1,36 +1,37 @@
-import { IBug } from "./format-bugs"
+import { ICritter, getIsAvailableNow } from "./format-critters"
 
 export const BUGS_FILTERS = {
   available: {
-    filter: (bug: IBug) => bug.isAvailable,
+    filter: ({ availableHours, availableMonths }: ICritter) =>
+      getIsAvailableNow(availableMonths, availableHours),
     type: "available",
   },
   flying: {
-    filter: (bug: IBug) => bug.location === "flying",
+    filter: ({ location }: ICritter) => location === "flying",
     type: "location",
   },
   water: {
-    filter: (bug: IBug) => bug.location === "water",
+    filter: ({ location }: ICritter) => location === "water",
     type: "location",
   },
   trees: {
-    filter: (bug: IBug) => bug.location === "trees",
+    filter: ({ location }: ICritter) => location === "trees",
     type: "location",
   },
   rocks: {
-    filter: (bug: IBug) => bug.location === "rocks",
+    filter: ({ location }: ICritter) => location === "rocks",
     type: "location",
   },
   flowers: {
-    filter: (bug: IBug) => bug.location === "flowers",
+    filter: ({ location }: ICritter) => location === "flowers",
     type: "location",
   },
   ground: {
-    filter: (bug: IBug) => bug.location === "ground",
+    filter: ({ location }: ICritter) => location === "ground",
     type: "location",
   },
   other: {
-    filter: (bug: IBug) => bug.location === "other",
+    filter: ({ location }: ICritter) => location === "other",
     type: "location",
   },
 }
