@@ -6,19 +6,19 @@ export const FISH_FILTERS = {
     type: "available",
   },
   sea: {
-    filter: (fish: IFish) => fish.locations.includes("sea"),
+    filter: (fish: IFish) => fish.location === "sea",
     type: "location",
   },
   river: {
-    filter: (fish: IFish) => fish.locations.includes("river"),
+    filter: (fish: IFish) => fish.location === "river",
     type: "location",
   },
   pond: {
-    filter: (fish: IFish) => fish.locations.includes("pond"),
+    filter: (fish: IFish) => fish.location === "pond",
     type: "location",
   },
   pier: {
-    filter: (fish: IFish) => fish.locations.includes("pier"),
+    filter: (fish: IFish) => fish.location === "pier",
     type: "location",
   },
   size1: {

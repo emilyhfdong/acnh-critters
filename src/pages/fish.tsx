@@ -1,19 +1,20 @@
 import React, { useState } from "react"
 import { Box } from "rebass"
-import { formattedFishData, FISH_LOCATION_TO_ICON } from "../utils/format-fish"
-import { FishList } from "../components/fish/fish-list"
+import { formattedFishData } from "../utils/format-fish"
 import {
   TFishFilterName,
   FISH_FILTERS,
   FISH_FILTER_NAMES,
   getSizeFromFilters,
 } from "../utils/fish-filters"
-import { Button } from "../components/shared/button"
-import { SizeSlider } from "../components/fish/size-slider"
+import { Button } from "../components/button"
+import { SizeSlider } from "../components/fish-size-slider"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
 import { theme } from "../theme"
-import { Page } from "../components/shared/page-container"
+import { Page } from "../components/page-container"
+import { LOCATION_TO_ICON } from "../utils/formatting"
+import { CritterList } from "../components/critter-list"
 
 export const FishPage: React.SFC<{}> = () => {
   const [filters, setFilters] = useState<TFishFilterName[]>([])
@@ -52,7 +53,7 @@ export const FishPage: React.SFC<{}> = () => {
             isActive={filters.includes(filterName)}
             onClick={() => selectFilter(filterName)}
           >
-            {FISH_LOCATION_TO_ICON[filterName]}
+            {LOCATION_TO_ICON[filterName]}
           </Button>
         ))}
       </Box>
@@ -78,7 +79,7 @@ export const FishPage: React.SFC<{}> = () => {
           available now
         </Button>
       </Box>
-      <FishList list={filteredFish} />
+      <CritterList list={filteredFish} />
     </Page>
   )
 }

@@ -1,4 +1,20 @@
+import React from "react"
 import moment from "moment"
+import { ReactNode } from "react"
+
+export const LOCATION_TO_ICON: { [key: string]: ReactNode } = {
+  flying: <i className="fas fa-cloud"></i>,
+  water: <i className="fas fa-water"></i>,
+  trees: <i className="fas fa-tree"></i>,
+  rocks: <i className="fas fa-egg"></i>, // HELP IDK
+  flowers: <i className="fas fa-seedling"></i>, // seedling, spa, sun
+  ground: <i className="fas fa-shoe-prints"></i>,
+  other: <i className="fas fa-ellipsis-h" />,
+  pond: <i className="fas fa-splotch"></i>,
+  river: <i className="fas fa-bacon"></i>,
+  sea: <i className="fas fa-water"></i>,
+  pier: <i className="fas fa-map-signs"></i>,
+}
 
 export const getIsAvailableNow = (
   monthArray: number[],

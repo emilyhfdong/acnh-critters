@@ -1,9 +1,8 @@
 import React, { useState } from "react"
-import { Page } from "../components/shared/page-container"
+import { Page } from "../components/page-container"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
-import { BugsList } from "../components/bugs/bugs-list"
-import { formattedBugsData, BUG_LOCATION_TO_ICON } from "../utils/format-bugs"
+import { formattedBugsData } from "../utils/format-bugs"
 import {
   TBugFilterName,
   BUGS_FILTERS,
@@ -11,7 +10,9 @@ import {
 } from "../utils/bug-filters"
 import { Box } from "rebass"
 import { theme } from "../theme"
-import { Button } from "../components/shared/button"
+import { Button } from "../components/button"
+import { LOCATION_TO_ICON } from "../utils/formatting"
+import { CritterList } from "../components/critter-list"
 
 export const BugsPage: React.SFC<{}> = () => {
   const [filters, setFilters] = useState<TBugFilterName[]>([])
@@ -52,7 +53,7 @@ export const BugsPage: React.SFC<{}> = () => {
             onClick={() => selectFilter(location)}
             isActive={filters.includes(location)}
           >
-            {BUG_LOCATION_TO_ICON[location]}
+            {LOCATION_TO_ICON[location]}
           </Button>
         ))}
       </Box>
@@ -64,7 +65,7 @@ export const BugsPage: React.SFC<{}> = () => {
           available now
         </Button>
       </Box>
-      <BugsList list={filteredBugs} />
+      <CritterList list={filteredBugs} />
     </Page>
   )
 }

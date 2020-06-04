@@ -1,6 +1,6 @@
 import React from "react"
 import { Box, Text } from "rebass"
-import { theme } from "../../theme"
+import { theme } from "../theme"
 
 export const NORMAL_CARD_SIZE = 80
 export const CARD_MARGIN = 6

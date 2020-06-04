@@ -1,6 +1,6 @@
 import React from "react"
 import { Box, Text } from "rebass"
-import { theme } from "../../theme"
+import { theme } from "../theme"
 
 export const Page: React.SFC<{
   headerText: string

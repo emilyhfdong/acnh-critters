@@ -1,18 +1,7 @@
-import React, { ReactNode } from "react"
 import bugsJSON from "../data/bugs.json"
 import { getIsAvailableNow, getAvailabilityDetail } from "./formatting"
 
 const rawBugsData = Object.values(bugsJSON)
-
-export const BUG_LOCATION_TO_ICON: { [key: string]: ReactNode } = {
-  flying: <i className="fas fa-cloud"></i>,
-  water: <i className="fas fa-water"></i>,
-  trees: <i className="fas fa-tree"></i>,
-  rocks: <i className="fas fa-egg"></i>, // HELP IDK
-  flowers: <i className="fas fa-seedling"></i>, // seedling, spa, sun
-  ground: <i className="fas fa-shoe-prints"></i>,
-  other: <i className="fas fa-ellipsis-h" />,
-}
 
 export type TBugLocation =
   | "flying"
@@ -47,7 +36,7 @@ const mapRawLocationsToLocations: { [key: string]: TBugLocation } = {
 }
 
 export interface IBug {
-  id: number
+  id: string
   name: string
   isAvailable: boolean
   price: number
@@ -60,7 +49,7 @@ export interface IBug {
 
 const formatBugsData = (data: typeof rawBugsData): IBug[] => {
   return data.map(({ id, name, icon_uri, availability, price }) => ({
-    id,
+    id: id.toString(),
     name: name["name-USen"],
     icon: icon_uri,
     isAvailable: getIsAvailableNow(
