@@ -17,7 +17,7 @@ import { LOCATION_TO_ICON } from "../utils/formatting"
 import { CritterList } from "../components/critter-list"
 
 export const FishPage: React.SFC<{}> = () => {
-  const [filters, setFilters] = useState<TFishFilterName[]>([])
+  const [filters, setFilters] = useState<TFishFilterName[]>(["available"])
 
   const filteredFish = filters.reduce(
     (allFish, filterName) => allFish.filter(FISH_FILTERS[filterName].filter),

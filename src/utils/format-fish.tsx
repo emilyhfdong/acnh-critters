@@ -59,5 +59,3 @@ const formatFishData = (data: typeof rawFishData): IFish[] => {
 export const formattedFishData = formatFishData(rawFishData).sort(
   (a, b) => b.price - a.price
 )
-
-console.log(formattedFishData)

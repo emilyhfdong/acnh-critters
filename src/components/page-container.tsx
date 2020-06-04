@@ -27,20 +27,36 @@ export const Page: React.SFC<{
         alignItems: "center",
       }}
     >
-      <i className="fas fa-chevron-left" />
+      <ArrowButtons type="left" onClick={headerOnClick} />
       <Text
         as="h1"
         sx={{
           letterSpacing: 2,
-          "&:hover": { cursor: "pointer" },
           marginX: "10px",
         }}
-        onClick={headerOnClick}
       >
         {headerText}
       </Text>
-      <i className="fas fa-chevron-right" />
+      <ArrowButtons type="right" onClick={headerOnClick} />
     </Box>
     {children}
+  </Box>
+)
+
+export const ArrowButtons: React.SFC<{
+  type: "left" | "right"
+  onClick: () => void
+}> = ({ onClick, type }) => (
+  <Box
+    onClick={onClick}
+    sx={{
+      "&:hover": {
+        cursor: "pointer",
+        opacity: 0.5,
+        "&:active": { opacity: 0.3 },
+      },
+    }}
+  >
+    <i className={`fas fa-chevron-${type}`} />
   </Box>
 )

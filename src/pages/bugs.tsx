@@ -15,7 +15,7 @@ import { LOCATION_TO_ICON } from "../utils/formatting"
 import { CritterList } from "../components/critter-list"
 
 export const BugsPage: React.SFC<{}> = () => {
-  const [filters, setFilters] = useState<TBugFilterName[]>([])
+  const [filters, setFilters] = useState<TBugFilterName[]>(["available"])
 
   const filteredBugs = filters.reduce(
     (allFish, filterName) => allFish.filter(BUGS_FILTERS[filterName].filter),
