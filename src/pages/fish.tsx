@@ -1,11 +1,6 @@
 import React, { useState } from "react"
 import { Box } from "rebass"
-import {
-  TFishFilterName,
-  FISH_FILTERS,
-  FISH_FILTER_NAMES,
-  getSizeFromFilters,
-} from "../utils/fish-filters"
+
 import { Button } from "../components/button"
 import { SizeSlider } from "../components/fish-size-slider"
 import { useHistory } from "react-router-dom"
@@ -13,68 +8,51 @@ import { PATH_NAMES } from "../App"
 import { theme } from "../theme"
 import { Page } from "../components/page-container"
 import { CritterList } from "../components/critter-list"
-import { formattedFishData } from "../utils/format-critters"
-import { LOCATION_TO_ICON } from "../utils/location"
+import { formattedFishData, getIsAvailableNow } from "../utils/format-critters"
+import { LOCATION_TO_ICON, FISH_LOCATIONS } from "../utils/location"
 
 export const FishPage: React.SFC<{}> = () => {
-  const [filters, setFilters] = useState<TFishFilterName[]>(["available"])
+  const [onlyAvailable, setOnlyAvailable] = useState(true)
+  const [locationFilter, setLocationFilter] = useState("")
+  const [sizeRange, setSizeRange] = useState([1, 6])
 
-  const filteredFish = filters.reduce(
-    (allFish, filterName) => allFish.filter(FISH_FILTERS[filterName].filter),
-    formattedFishData
+  const filteredFish = formattedFishData.filter(
+    ({ availableHours, availableMonths, location, shadowSize = 6 }) => {
+      const [minSize, maxSize] = sizeRange
+      return (
+        !(
+          onlyAvailable && !getIsAvailableNow(availableMonths, availableHours)
+        ) &&
+        !(locationFilter && locationFilter !== location) &&
+        shadowSize >= minSize &&
+        shadowSize <= maxSize
+      )
+    }
   )
 
-  const selectFilter = (selectedFilterName: TFishFilterName) =>
-    filters.includes(selectedFilterName)
-      ? FISH_FILTERS[selectedFilterName].type === "size"
-        ? null
-        : setFilters(filters.filter((name) => name !== selectedFilterName))
-      : setFilters([
-          ...filters.filter(
-            (filterName) =>
-              FISH_FILTERS[filterName].type !==
-              FISH_FILTERS[selectedFilterName].type
-          ),
-          selectedFilterName,
-        ])
-
-  const size = getSizeFromFilters(filters)
   const history = useHistory()
 
   return (
     <Page headerText="FISH" headerOnClick={() => history.push(PATH_NAMES.bugs)}>
       <Box sx={{ display: "flex" }}>
-        {FISH_FILTER_NAMES.filter(
-          (filterName) => FISH_FILTERS[filterName].type === "location"
-        ).map((filterName) => (
+        {FISH_LOCATIONS.map((location) => (
           <Button
-            key={filterName}
+            key={location}
             buttonType="circle"
-            isActive={filters.includes(filterName)}
-            onClick={() => selectFilter(filterName)}
+            isActive={locationFilter === location}
+            onClick={() =>
+              setLocationFilter(locationFilter === location ? "" : location)
+            }
           >
-            {LOCATION_TO_ICON[filterName]}
+            {LOCATION_TO_ICON[location]}
           </Button>
         ))}
       </Box>
-      <SizeSlider
-        disabled={size === null}
-        onChange={(size) => selectFilter(`size${size}` as TFishFilterName)}
-      />
+      <SizeSlider onChange={setSizeRange} />
       <Box sx={{ display: "flex", marginBottom: theme.verticalSpacing }}>
         <Button
-          isActive={size === null}
-          onClick={() =>
-            size === null
-              ? selectFilter("size1")
-              : setFilters(filters.filter((name) => !name.includes("size")))
-          }
-        >
-          all sizes
-        </Button>
-        <Button
-          isActive={filters.includes("available")}
-          onClick={() => selectFilter("available")}
+          isActive={onlyAvailable}
+          onClick={() => setOnlyAvailable(!onlyAvailable)}
         >
           available now
         </Button>

@@ -2,36 +2,26 @@ import React, { useState } from "react"
 import { Page } from "../components/page-container"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
-import {
-  TBugFilterName,
-  BUGS_FILTERS,
-  LOCATION_BUGS_FILTER_NAMES,
-} from "../utils/bug-filters"
 import { Box } from "rebass"
 import { theme } from "../theme"
 import { Button } from "../components/button"
 import { CritterList } from "../components/critter-list"
-import { formattedBugData } from "../utils/format-critters"
-import { LOCATION_TO_ICON } from "../utils/location"
+import { formattedBugData, getIsAvailableNow } from "../utils/format-critters"
+import { LOCATION_TO_ICON, BUG_LOCATIONS } from "../utils/location"
 
 export const BugsPage: React.SFC<{}> = () => {
-  const [filters, setFilters] = useState<TBugFilterName[]>(["available"])
+  const [onlyAvailable, setOnlyAvailable] = useState(true)
+  const [locationFilter, setLocationFilter] = useState("")
 
-  const filteredBugs = filters.reduce(
-    (allFish, filterName) => allFish.filter(BUGS_FILTERS[filterName].filter),
-    formattedBugData
+  const filteredBugs = formattedBugData.filter(
+    ({ availableHours, availableMonths, location }) => {
+      return (
+        !(
+          onlyAvailable && !getIsAvailableNow(availableMonths, availableHours)
+        ) && !(locationFilter && locationFilter !== location)
+      )
+    }
   )
-  const selectFilter = (selectedFilterName: TBugFilterName) =>
-    filters.includes(selectedFilterName)
-      ? setFilters(filters.filter((name) => name !== selectedFilterName))
-      : setFilters([
-          ...filters.filter(
-            (filterName) =>
-              BUGS_FILTERS[filterName].type !==
-              BUGS_FILTERS[selectedFilterName].type
-          ),
-          selectedFilterName,
-        ])
   const history = useHistory()
   return (
     <Page headerOnClick={() => history.push(PATH_NAMES.fish)} headerText="BUGS">
@@ -45,13 +35,13 @@ export const BugsPage: React.SFC<{}> = () => {
           paddingBottom: "6px",
         }}
       >
-        {LOCATION_BUGS_FILTER_NAMES.map((location) => (
+        {BUG_LOCATIONS.map((location) => (
           <Button
             key={location}
             sx={{ marginTop: "3px" }}
             buttonType="circle"
-            onClick={() => selectFilter(location)}
-            isActive={filters.includes(location)}
+            onClick={() => setLocationFilter(location)}
+            isActive={locationFilter === location}
           >
             {LOCATION_TO_ICON[location]}
           </Button>
@@ -59,8 +49,8 @@ export const BugsPage: React.SFC<{}> = () => {
       </Box>
       <Box sx={{ display: "flex", marginBottom: theme.verticalSpacing }}>
         <Button
-          isActive={filters.includes("available")}
-          onClick={() => selectFilter("available")}
+          isActive={onlyAvailable}
+          onClick={() => setOnlyAvailable(!onlyAvailable)}
         >
           available now
         </Button>

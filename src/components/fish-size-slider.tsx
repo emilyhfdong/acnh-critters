@@ -3,9 +3,8 @@ import { Box } from "rebass"
 import { Slider } from "@material-ui/core"
 
 export const SizeSlider: React.SFC<{
-  onChange: (size: number) => void
-  disabled: boolean
-}> = ({ onChange, disabled }) => (
+  onChange: (sizes: number[]) => void
+}> = ({ onChange }) => (
   <Box
     className="slider"
     sx={{
@@ -13,19 +12,18 @@ export const SizeSlider: React.SFC<{
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      opacity: disabled ? 0.4 : 1,
     }}
   >
     <Box sx={{ color: "black", marginX: 15, fontSize: "10px" }}>
       <i className="fas fa-fish"></i>
     </Box>
     <Slider
-      disabled={disabled}
       marks
       min={1}
       max={6}
       step={1}
-      onChangeCommitted={(_, value) => onChange(value as number)}
+      defaultValue={[1, 6]}
+      onChangeCommitted={(_, value) => onChange(value as number[])}
     />
     <Box sx={{ color: "black", marginX: 15, fontSize: "22px" }}>
       <i className="fas fa-fish"></i>

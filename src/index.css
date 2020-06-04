@@ -17,12 +17,11 @@ code {
 }
 
 .slider .MuiSlider-root {
-  color: red;
   width: 65%;
 }
 
 .slider .MuiSlider-track {
-  color: white;
+  color: rgb(214, 157, 123);
 }
 
 .slider .MuiSlider-rail {
