@@ -2,6 +2,7 @@ import React from "react"
 import { formattedBugData } from "../utils/format-critters"
 import { BUG_LOCATIONS } from "../utils/location"
 import { SearchPage } from "../components/search-page"
+import { theme } from "../theme"
 
 export const BugsPage: React.SFC<{}> = () => (
   <SearchPage
@@ -9,6 +10,6 @@ export const BugsPage: React.SFC<{}> = () => (
     headerText={"BUGS"}
     nextPage="fish"
     locations={BUG_LOCATIONS}
-    locationContainerStyles={{ marginBottom: "16px" }}
+    locationContainerStyles={{ marginBottom: theme.verticalSpacing }}
   />
 )

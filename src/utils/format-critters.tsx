@@ -3,7 +3,6 @@ import fishJSON from "../data/fish.json"
 import bugJSON from "../data/bugs.json"
 
 import moment from "moment"
-import Fuse from "fuse.js"
 
 const rawFishData = Object.values(fishJSON)
 const rawBugData = Object.values(bugJSON)
@@ -40,11 +39,11 @@ const getAvailabilityDetail = (monthDetail: string, timeDetail: string) => {
   return `${monthString} ${timeString}`
 }
 
-const formatCritterData = (data: any): ICritter[] =>
+const formatCritterData = (data: any, type: "bug" | "fish"): ICritter[] =>
   data
     .map(
       ({ id, name, icon_uri, availability, price, shadow }: any): ICritter => ({
-        id: id.toString(),
+        id: type + id.toString(),
         name: name["name-USen"],
         icon: getLocalImagePath(icon_uri),
         availableMonths: availability["month-array-northern"],
@@ -65,8 +64,8 @@ const formatCritterData = (data: any): ICritter[] =>
     )
     .sort((a: ICritter, b: ICritter) => b.price - a.price)
 
-export const formattedBugData = formatCritterData(rawBugData)
-export const formattedFishData = formatCritterData(rawFishData)
+export const formattedBugData = formatCritterData(rawBugData, "bug")
+export const formattedFishData = formatCritterData(rawFishData, "fish")
 
 export const getIsAvailableNow = (
   monthArray: number[],

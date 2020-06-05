@@ -66,11 +66,11 @@ export const SearchPage: React.SFC<ISearchPageProps> = ({
       >
         {locations.map((location) => (
           <Button
+            label={location}
             key={location}
             sx={{
               marginTop: "3px",
             }}
-            buttonType="circle"
             onClick={() =>
               setLocationFilter(locationFilter === location ? "" : location)
             }
