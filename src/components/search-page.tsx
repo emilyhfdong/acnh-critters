@@ -2,7 +2,7 @@ import React, { useState, ReactNode } from "react"
 import { Page } from "../components/page-container"
 import { useHistory } from "react-router-dom"
 import { PATH_NAMES } from "../App"
-import { Box, SxProps, SxStyleProp } from "rebass"
+import { Box, SxStyleProp } from "rebass"
 import { theme } from "../theme"
 import { Button } from "../components/button"
 import { CritterList } from "../components/critter-list"
@@ -86,6 +86,7 @@ export const SearchPage: React.SFC<ISearchPageProps> = ({
           display: "flex",
           marginBottom: theme.verticalSpacing,
           justifyContent: "center",
+          paddingTop: "6px",
         }}
       >
         <Input value={searchTerm} onChange={setSearchTerm} />
