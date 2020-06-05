@@ -7,12 +7,12 @@ import { Input as RInput } from "@rebass/forms"
 const ICON_FONT_SIZE = 16
 const ICON_PADDING = 10
 
-export const Input: React.SFC<{ onChange: (text: string) => void }> = ({
-  onChange,
-}) => {
+export const Input: React.SFC<{
+  onChange: (text: string) => void
+  value: string
+}> = ({ onChange, value }) => {
   return (
     <Box
-      id="input-box"
       sx={{
         height: theme.buttonHeight,
         borderRadius: 20,
@@ -31,19 +31,28 @@ export const Input: React.SFC<{ onChange: (text: string) => void }> = ({
         }}
         className="fas fa-search"
       ></i>
-      <RInput
-        onFocus={() => {
-          const offsetTop = document.getElementById("input-box")?.offsetTop
-          if (offsetTop) {
-            window.scrollTo({ top: offsetTop - 10, behavior: "smooth" })
-          }
+
+      <Box></Box>
+      <i
+        onClick={() => onChange("")}
+        className="fas fa-times-circle"
+        style={{
+          position: "absolute",
+          top: theme.buttonHeight / 2 - ICON_FONT_SIZE / 2,
+          right: ICON_PADDING,
+          opacity: value ? 1 : 0,
+          transition: "opacity 0.1s",
+          cursor: "pointer",
         }}
+      ></i>
+      <RInput
+        value={value}
         onChange={(event) => onChange(event.target.value)}
         sx={{
           borderRadius: 20,
           height: 40,
           borderWidth: 0,
-          paddingLeft: ICON_PADDING * 3,
+          paddingX: ICON_PADDING * 3,
           outline: "none",
           caretColor: theme.colors.black,
           "&:focus": {

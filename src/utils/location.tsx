@@ -47,9 +47,9 @@ export const RAW_LOCATION_TO_LOCATION: { [key: string]: TLocation } = {
 }
 
 const FISH_LOCATION_TO_ICON = {
-  pond: <i className="fas fa-splotch"></i>,
-  river: <i className="fas fa-bacon"></i>,
   sea: <i className="fas fa-water"></i>,
+  river: <i className="fas fa-bacon"></i>,
+  pond: <i className="fas fa-splotch"></i>,
   pier: <i className="fas fa-map-signs"></i>,
 }
 

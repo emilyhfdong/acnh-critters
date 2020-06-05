@@ -51,14 +51,15 @@ export const Card: React.SFC<{
         ...(expandDirection === "right" ? { left: 0 } : { right: 0 }),
         ...(onClick ? { "&:hover": { cursor: "pointer" } } : {}),
         transition:
-          "width 0.25s, height 0.25s, z-index 0.25s, background-color 0.25s",
+          "width 0.2s, height 0.2s, z-index 0.2s, background-color 0.2s",
       }}
     >
       <Text
         sx={{
           color: "white",
+          opacity: isExpanded ? 1 : 0,
           fontSize: isExpanded ? "14px" : "0px",
-          transition: "font-size 0.25s",
+          transition: "font-size 0.2s, opacity 0.2s",
           fontWeight: 600,
           paddingX: 2,
           textAlign: "center",
@@ -73,7 +74,7 @@ export const Card: React.SFC<{
           sx={{
             color: "white",
             fontSize: isExpanded ? "10px" : "0px",
-            transition: "font-size 0.25s",
+            transition: "font-size 0.2s",
           }}
         >
           {text}

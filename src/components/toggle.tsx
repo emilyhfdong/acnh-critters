@@ -16,7 +16,9 @@ export const Toggle: React.SFC<{
       fontSize: 10,
       alignItems: "center",
       marginX: 10,
+      cursor: "pointer",
     }}
+    onClick={onChange}
   >
     <Box
       sx={{
@@ -53,7 +55,6 @@ export const Toggle: React.SFC<{
         NOW
       </Text>
       <Box
-        onClick={onChange}
         sx={{
           left: isOn ? `${TOGGLE_PADDING}px` : TOGGLE_PADDING * 2 + TOGGLE_SIZE,
           position: "absolute",
