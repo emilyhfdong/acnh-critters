@@ -2,10 +2,13 @@ import { useState, useRef } from "react"
 import { useDimensions } from "../utils/hooks"
 import React from "react"
 import { NORMAL_CARD_SIZE, CARD_MARGIN, Card, IconContainer } from "./card"
-import { Box, Image } from "rebass"
+import { Box, Image, Text } from "rebass"
 import { formatMoney } from "accounting"
 import { ICritter, getIsAvailableNow } from "../utils/format-critters"
 import { LOCATION_TO_ICON } from "../utils/location"
+import { useSelector } from "react-redux"
+import { IRootState } from ".."
+import { useDispatch } from "react-redux"
 
 export const CritterList: React.SFC<{ list: Array<ICritter> }> = ({ list }) => {
   const [activeId, setActiveId] = useState("")
@@ -35,7 +38,9 @@ export const CritterList: React.SFC<{ list: Array<ICritter> }> = ({ list }) => {
           critter={critter}
           key={idx}
           isExpanded={critter.id === activeId}
-          onClick={() => setActiveId(critter.id === activeId ? "" : critter.id)}
+          onClick={() => {
+            setActiveId(critter.id === activeId ? "" : critter.id)
+          }}
         />
       ))}
     </Box>
@@ -49,6 +54,7 @@ export const CritterCard: React.SFC<{
   expandDirection: "left" | "right"
 }> = ({
   critter: {
+    id,
     name,
     availabilityDetail,
     icon,
@@ -65,6 +71,19 @@ export const CritterCard: React.SFC<{
   expandDirection,
 }) => {
   const iconColor = isExpanded ? "white" : "brown"
+  const donatedIds = useSelector<IRootState, string[]>(
+    (state) => state.donatedIds
+  )
+  const isDonated = donatedIds.includes(id)
+  const dispatch = useDispatch()
+  const onDonateClick = () => {
+    dispatch({
+      type: "SET_DONATED_IDS",
+      payload: isDonated
+        ? donatedIds.filter((donatedId) => donatedId !== id)
+        : [...donatedIds, id],
+    })
+  }
 
   return (
     <Card
@@ -72,7 +91,6 @@ export const CritterCard: React.SFC<{
       isExpanded={isExpanded}
       onClick={onClick}
       title={name}
-      paragraph={`${availabilityDetail}\n${rarity}`}
     >
       <Image
         src={process.env.PUBLIC_URL + icon}
@@ -81,6 +99,38 @@ export const CritterCard: React.SFC<{
           height: 50,
         }}
       />
+      {`${availabilityDetail}\n${rarity}`.split("hihi").map((text, idx) => (
+        <Text
+          key={idx}
+          sx={{
+            color: "white",
+            fontSize: isExpanded ? "10px" : "0px",
+            transition: "font-size 0.2s",
+          }}
+        >
+          {text}
+        </Text>
+      ))}
+      <Box
+        sx={{
+          height: isExpanded ? "16px" : "0px",
+          backgroundColor: "white",
+          paddingX: "10px",
+          borderRadius: "8px",
+          marginTop: isExpanded ? "8px" : "0px",
+          opacity: isDonated ? 0.4 : 1,
+          transition: "0.2s height, 0.2s margin-top",
+          fontSize: "10px",
+          color: "black",
+          overflow: "hidden",
+        }}
+        onClick={(e) => {
+          e.stopPropagation()
+          onDonateClick()
+        }}
+      >
+        donate
+      </Box>
       <IconContainer color={iconColor} position="topLeft">
         {isExpanded
           ? formatMoney(price, undefined, 0)
@@ -90,7 +140,8 @@ export const CritterCard: React.SFC<{
                 <i key={idx} className="fas fa-dollar-sign"></i>
               ))}
       </IconContainer>
-      <IconContainer color={iconColor} position="topRight">
+      <IconContainer letterSpacing={1.75} color={iconColor} position="topRight">
+        {isDonated && <i className="fas fa-university"></i>}
         {getIsAvailableNow(availableMonths, availableHours) && (
           <i className="fas fa-check"></i>
         )}

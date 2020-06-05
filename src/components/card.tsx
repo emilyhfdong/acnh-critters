@@ -68,18 +68,6 @@ export const Card: React.SFC<{
         {title}
       </Text>
       {children}
-      {paragraph?.split("\n").map((text, idx) => (
-        <Text
-          key={idx}
-          sx={{
-            color: "white",
-            fontSize: isExpanded ? "10px" : "0px",
-            transition: "font-size 0.2s",
-          }}
-        >
-          {text}
-        </Text>
-      ))}
     </Box>
   </Box>
 )
@@ -109,14 +97,21 @@ export const IconContainer: React.SFC<{
   position: keyof typeof positionToStyle
   fontSize?: string
   color?: string
-}> = ({ position, children, fontSize = "8px", color = "brown" }) => (
+  letterSpacing?: number
+}> = ({
+  position,
+  children,
+  fontSize = "8px",
+  color = "brown",
+  letterSpacing = 1,
+}) => (
   <Box
     sx={{
       position: "absolute",
       ...positionToStyle[position],
       color,
       fontSize,
-      letterSpacing: 1,
+      letterSpacing,
       fontWeight: 900,
       maxWidth: EXPANDED_SIZE / 1.5,
     }}
